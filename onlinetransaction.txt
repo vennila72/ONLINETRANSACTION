@@ -1,0 +1,278 @@
+import java.awt.BorderLayout;
+
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import javax.swing.JLabel;
+import javax.swing.JCheckBox;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import java.awt.Color;
+import java.awt.Window.Type;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.swing.UIManager;
+
+
+
+public class transaction extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textfield_3;
+	private JTextField textfield_4;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	
+	
+
+
+
+	/**
+	 * Launch the application.
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SQLException 
+	 */
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					transaction frame = new transaction();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	
+	}
+	
+
+	
+		
+	
+	/**
+	 * Create the frame.
+	 */
+	public transaction() {
+		
+		
+		
+		setTitle("ONLINE TRANSACTION");
+		setBackground(new Color(153, 153, 204));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(400, 180, 700, 500);
+		contentPane = new JPanel();
+		contentPane.setToolTipText(".,");
+		contentPane.setForeground(new Color(245, 222, 179));
+		contentPane.setBackground(new Color(253, 245, 230));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("   NAME");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel.setBounds(10, 80, 74, 31);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("ONLINE TRANSACTION");
+		lblNewLabel_1.setForeground(new Color(0, 0, 0));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel_1.setBounds(168, 11, 347, 26);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("ACCOUNT NUMBER");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel_2.setBounds(276, 84, 182, 20);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("FUND TRANSFERING ACOUNT DETAIL");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_3.setBounds(10, 141, 281, 31);
+		contentPane.add(lblNewLabel_3);
+		
+		textfield_3 = new JTextField();
+		textfield_3.setBackground(new Color(240, 248, 255));
+		textfield_3.setBounds(168, 185, 172, 26);
+		contentPane.add(textfield_3);
+		textfield_3.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("ACCOUNT NUMBER");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_4.setBounds(20, 235, 137, 26);
+		contentPane.add(lblNewLabel_4);
+		
+		textfield_4 = new JTextField();
+		textfield_4.setBackground(new Color(240, 255, 240));
+		textfield_4.setBounds(168, 237, 161, 26);
+		contentPane.add(textfield_4);
+		textfield_4.setColumns(10);
+		
+		
+		JButton SUBMIT = new JButton("TRANSFER");
+		SUBMIT.setBackground(new Color(255, 228, 225));
+		SUBMIT.setForeground(new Color(0, 0, 0));
+		SUBMIT.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+				 
+				 Connection conn =null;
+				 
+				 try {
+					 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/transactiondetail","root","root123");    //CONNECTING TO THE DATABASE
+					
+					
+				 if(conn!=null)
+				 {
+					 System.out.println("connecting");
+					 
+				 }
+				
+				 }catch(Exception e1)
+				 {
+					 System.out.println("not");
+				 }
+				 try {
+		
+				 String query="insert into transactionreport values(?,?,?,?,?,?)";
+				 PreparedStatement statement=(PreparedStatement) conn.prepareStatement(query);
+				 statement.setString(2,txtstate.getSelectedItem().toString());
+				 statement.setString(3,txtdst.getSelectedItem().toString());
+				 statement.setLong(4,Integer.parseInt(textfield_3.getText()));
+				 statement.setLong(5,Integer.parseInt(textfield_4.getText()));
+				 int total=Integer.parseInt(textfield_3.getText()-Integer.parseInt(textfield_4.getText());
+				 statement.setLong(6,total);
+				 statement.executeUpdate();
+				 
+
+				 JOptionPane.showMessageDialog(null,"data inserted successfully");
+				 }catch(Exception e2)
+				 {
+					 System.out.println("exception"+e2);
+				 }
+				 
+				
+		
+				 
+			}
+		});
+	
+		SUBMIT.setFont(new Font("Tahoma", Font.BOLD, 18));
+		SUBMIT.setBounds(94, 338, 148, 31);
+		contentPane.add(SUBMIT);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBackground(new Color(245, 245, 245));
+		textArea.setBounds(339, 141, 336, 236);
+		contentPane.add(textArea);
+		
+		JButton btnNewButton = new JButton("TRANSACTION  REPORT");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int mcount=Integer.parseInt(textfield_3.getText());
+				int fcount=Integer.parseInt(textfield_4.getText());
+				
+ Connection conn =null;
+				 
+				 try {
+					 conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/transactiondetail","root","root123");
+					
+					
+				 if(conn!=null)
+				 {
+					 System.out.println("connecting");
+					 
+				 }
+				
+				 }catch(Exception e1)
+				 {
+					 System.out.println("not");
+				 }
+				 try {
+					
+				 
+			    PreparedStatement statement=(PreparedStatement) conn.prepareStatement("SELECT * FROM alextrasaction"); 
+			     PreparedStatement statement1=(PreparedStatement) conn.prepareStatement("SELECT * from TRANSACTION");
+			     
+			     statement.execute();
+			     statement1.execute();
+				 textArea.setText(((textArea) statement).getText());
+                  			
+					
+				 }catch(Exception e2)
+				 {
+					 System.out.println("exception"+e2);
+				 }	
+			}
+		});*/
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnNewButton.setBounds(393, 399, 215, 31);
+		contentPane.add(btnNewButton);
+		
+		textField = new JTextField();
+		textField.setBounds(81, 87, 148, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(453, 87, 188, 20);
+		contentPane.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("NAME");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_5.setBounds(20, 185, 64, 23);
+		contentPane.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("AMOUNT");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_6.setBounds(20, 286, 94, 26);
+		contentPane.add(lblNewLabel_6);
+		
+		textField_2 = new JTextField();
+		textField_2.setBackground(UIManager.getColor("Button.background"));
+		textField_2.setBounds(168, 288, 155, 26);
+		contentPane.add(textField_2);
+		textField_2.setColumns(10);
+		//setBorder(BorderFactory.createLineBorder(Color.pink));
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
